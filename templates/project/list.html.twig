@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projects{% endblock %}
+
+{% block body %}
+    <h3>Project List:</h3>
+    <div>
+        {% if collection %}
+        <ul>
+            {% for project in collection %}
+                <li>{{ project.title }} <a href="">✏️</a> <a href="">🗑️</a> </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <em>No Projects exist</em>
+        {% endif %}
+    </div>
+    <div>
+        <a href="">➕ Add</a>
+    </div>
+{% endblock %}
