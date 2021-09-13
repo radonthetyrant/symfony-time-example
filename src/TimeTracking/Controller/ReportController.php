@@ -51,21 +51,14 @@ class ReportController extends AbstractController
     {
         /** @var HandledStamp $stamp */
         $stamp = $this->queryBus->dispatch($query)->last(HandledStamp::class);
-        /** @var array $report */
-        $report = $stamp->getResult();
+        /** @var array $reports */
+        $reports = $stamp->getResult();
 
-        switch (true) {
-            case $this->isJsonRequested():
-                return new JsonResponse($report);
-            case $this->isCsvRequested():
-                return new StreamedResponse([$this->csvGenerator, '__invoke', $report]);
-        }
-
-        return $this->render('report.html.twig', ['report' => $report]);
+        return $this->render('report.html.twig', ['reports' => $reports]);
     }
 
     /**
-     * @Route("/generate/file.csv", name="generate_report")
+     * @Route("/generate/file.csv", name="generate_csv_report")
      */
     public function generateCsvReport(): Response
     {
@@ -74,32 +67,7 @@ class ReportController extends AbstractController
         /** @var Collection<TimeLog> $collection */
         $collection = $stamp->getResult();
 
-        $response = new StreamedResponse(function () use ($collection) {
-            print implode(',', ['id', 'username', 'project', 'startAt', 'endAt', 'hours']) . PHP_EOL;
-            foreach ($collection as $timeLog) {
-
-                if ($timeLog->getEndAt() instanceof \DateTimeImmutable) {
-                    $period = new \DatePeriod($timeLog->getStartAt(), new \DateInterval('PT1H'), $timeLog->getEndAt());
-                    $hours = iterator_count($period);
-                } else {
-                    $hours = null;
-                }
-
-                print implode(',',
-                    [
-                        $timeLog->getId(),
-                        $timeLog->getUser()->getUsername(),
-                        $timeLog->getProject()->getTitle(),
-                        $timeLog->getStartAt()->format(DATE_RFC3339),
-                        $timeLog->getEndAt() instanceof \DateTimeImmutable ? $timeLog->getEndAt()->format(DATE_RFC3339) : null,
-                        $hours,
-                    ]
-                ) . PHP_EOL;
-            }
-        });
-        $response->headers->set('Content-Type', 'text/csv');
-
-        return $response;
+        return $this->csvGenerator->asStreamedResponse($collection);
     }
 
 }

@@ -3,6 +3,66 @@
 {% block title %}Report{% endblock %}
 
 {% block body %}
-    <h3>Report:</h3>
+    <h3>Reports:</h3>
+
+    <h5>Daily:</h5>
+    <table style="background-color: #eee ; border: 1px solid #ccc ; width: 100%">
+        <thead>
+            <th>User</th>
+            <th>Project</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Day</th>
+            <th>Hours</th>
+        </thead>
+        <tbody>
+        {% for user, userReports in reports.daily %}
+            {% for project, projectReports in userReports %}
+                {% for year, yearlyReports in projectReports %}
+                    {% for month, monthlyReports in yearlyReports %}
+                        {% for day, hours in monthlyReports %}
+                            <tr style="text-align: center">
+                                <td>{{ user }}</td>
+                                <td>{{ project }}</td>
+                                <td>{{ year }}</td>
+                                <td>{{ month }}</td>
+                                <td>{{ day }}</td>
+                                <td>{{ hours }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5>Monthly:</h5>
+    <table style="background-color: #eee ; border: 1px solid #ccc ; width: 100%">
+        <thead>
+            <th>User</th>
+            <th>Project</th>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Hours</th>
+        </thead>
+        <tbody>
+        {% for user, userReports in reports.monthly %}
+            {% for project, projectReports in userReports %}
+                {% for year, yearlyReports in projectReports %}
+                    {% for month, hours in yearlyReports %}
+                        <tr style="text-align: center">
+                            <td>{{ user }}</td>
+                            <td>{{ project }}</td>
+                            <td>{{ year }}</td>
+                            <td>{{ month }}</td>
+                            <td>{{ hours }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
