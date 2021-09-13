@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    {% if user %}
+        Logged in as <strong>{{ user.username }}</strong>, click <a href="{{ path('app_logout') }}">here</a> to logout
+    {% else %}
+        Guest user, go <a href="{{ path('app_login') }}">here</a> to login
+    {% endif %}
+{% endblock %}
