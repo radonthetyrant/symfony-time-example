@@ -2,6 +2,9 @@
 
 namespace App\Framework;
 
+use App\TimeTracking\TimeLog;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,6 +35,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TimeLog::class, mappedBy="user")
+     */
+    private $timeLogs;
+
+    public function __construct()
+    {
+        $this->timeLogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,5 +118,35 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * @return Collection|TimeLog[]
+     */
+    public function getTimeLogs(): Collection
+    {
+        return $this->timeLogs;
+    }
+
+    public function addTimeLog(TimeLog $timeLog): self
+    {
+        if (!$this->timeLogs->contains($timeLog)) {
+            $this->timeLogs[] = $timeLog;
+            $timeLog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeLog(TimeLog $timeLog): self
+    {
+        if ($this->timeLogs->removeElement($timeLog)) {
+            // set the owning side to null (unless already changed)
+            if ($timeLog->getUser() === $this) {
+                $timeLog->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
