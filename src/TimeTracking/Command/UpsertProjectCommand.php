@@ -7,7 +7,7 @@ namespace App\TimeTracking\Command;
 
 use App\TimeTracking\Project;
 
-class CreateProjectCommand
+class UpsertProjectCommand
 {
     public function __construct(
         public Project $project

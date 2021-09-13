@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\TimeTracking\Controller;
 
-use App\TimeTracking\Command\CreateProjectCommand;
+use App\TimeTracking\Command\DeleteProjectCommand;
+use App\TimeTracking\Command\UpsertProjectCommand;
 use App\TimeTracking\Project;
 use App\TimeTracking\ProjectType;
 use App\TimeTracking\Query\FindProjectQuery;
@@ -54,7 +55,7 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $project = $form->getData();
 
-            $this->commandBus->dispatch(new CreateProjectCommand($project));
+            $this->commandBus->dispatch(new UpsertProjectCommand($project));
 
             return $this->redirectToRoute('project_list');
         }
@@ -73,7 +74,7 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $project = $form->getData();
 
-            $this->commandBus->dispatch(new CreateProjectCommand($project));
+            $this->commandBus->dispatch(new UpsertProjectCommand($project));
 
             return $this->redirectToRoute('project_list');
         }
@@ -82,15 +83,13 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="project_delete", methods={"GET"})
+     * @Route("/delete/{id}", name="project_delete", methods={"GET"})
      */
-    public function deleteProject(Project $project): Response
+    public function deleteProject(int $id): Response
     {
-        dump($project);
+        $this->commandBus->dispatch(new DeleteProjectCommand($id));
 
-        $form = $this->createForm(ProjectType::class, $project);
-
-        return $this->render('project/edit.html.twig', ['form' => $form->createView()]);
+        return $this->redirectToRoute('project_list');
     }
 
 }

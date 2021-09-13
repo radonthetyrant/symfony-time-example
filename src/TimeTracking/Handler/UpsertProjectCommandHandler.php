@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\TimeTracking\Handler;
 
 
-use App\TimeTracking\Command\CreateProjectCommand;
+use App\TimeTracking\Command\UpsertProjectCommand;
+use App\TimeTracking\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreateProjectCommandHandler implements MessageHandlerInterface
+class UpsertProjectCommandHandler implements MessageHandlerInterface
 {
 
     public function __construct(
@@ -18,10 +19,12 @@ class CreateProjectCommandHandler implements MessageHandlerInterface
     {
     }
 
-    public function __invoke(CreateProjectCommand $command)
+    public function __invoke(UpsertProjectCommand $command): Project
     {
         $this->entityManager->persist($command->project);
         $this->entityManager->flush();
+
+        return $command->project;
     }
 
 }
