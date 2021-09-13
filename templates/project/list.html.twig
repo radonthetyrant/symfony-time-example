@@ -11,6 +11,7 @@
                 <li>{{ project.title }} <a href="">✏️</a> <a href="">🗑️</a> </li>
             {% endfor %}
         </ul>
+        <a href="{{ path('project_list') }}?page={{ query.page - 1 }}">«</a> | <a href="{{ path('project_list') }}?page={{ query.page + 1 }}">»</a>
         {% else %}
             <em>No Projects exist</em>
         {% endif %}

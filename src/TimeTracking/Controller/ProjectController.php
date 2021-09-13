@@ -13,7 +13,7 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/project", name="app_home")
+ * @Route("/project")
  */
 class ProjectController extends AbstractController
 {
@@ -25,7 +25,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("")
+     * @Route("", name="project_list")
      */
     public function listController(FindProjectQuery $query): Response
     {
@@ -34,7 +34,7 @@ class ProjectController extends AbstractController
         /** @var Collection $collection */
         $collection = $result->getResult();
 
-        return $this->render('project/list.html.twig', ['collection' => $collection]);
+        return $this->render('project/list.html.twig', ['query' => $query, 'collection' => $collection]);
     }
 
 }
