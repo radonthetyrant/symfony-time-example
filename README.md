@@ -6,6 +6,8 @@ run `bin/init_all.sh` to run docker-compose with all required containers, instal
 Requires docker, docker-compose to be installed on the host system.
 *Init script likely has to run more than once if mysql takes too long to boot up*
 
+The webinterface will then be available through `http://localhost:8000`
+
 ### Structure
 
  * `/bin` binary files from symfony + init_all.sh helper file
