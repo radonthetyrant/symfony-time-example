@@ -2,6 +2,10 @@ framework_controllers:
     resource: ../../src/Framework/Controller
     type: annotation
 
+timetracking_controllers:
+    resource: ../../src/TimeTracking/Controller
+    type: annotation
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

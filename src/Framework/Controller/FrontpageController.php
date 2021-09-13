@@ -12,7 +12,7 @@ class FrontpageController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function login(): Response
+    public function index(): Response
     {
         $user = $this->getUser();
 
