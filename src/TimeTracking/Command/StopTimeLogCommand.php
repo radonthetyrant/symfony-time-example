@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\TimeTracking\Command;
 
 
-class DeleteTimeLogCommand
+class StopTimeLogCommand
 {
     public function __construct(
-        public int $timeLogId
+        public int $projectId
     )
     {
     }

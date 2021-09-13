@@ -4,6 +4,11 @@
 
 {% block body %}
     <h3>Time Log:</h3>
+    {% for message in app.flashes('errors') %}
+        <div style="color: red">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div>
         {% if collection %}
             <ul>
@@ -18,5 +23,21 @@
     </div>
     <div>
         <a href="{{ path('timelog_create') }}">➕ Add</a>
+    </div>
+    <hr />
+    <div>
+        <form action="" method="get">
+            <label for="active_project">Change Active Project:</label>
+            <select name="active_project" id="active_project">
+            {% for project in project_collection %}
+                <option value="{{ project.id }}"{% if active_project == project.id %} selected{% endif %}>{{ project.title }}</option>
+            {% endfor %}
+            </select>
+            <input type="submit" />
+        </form>
+    </div>
+    <div>
+        <a href="{{ path('timelog_start', {'id': active_project ?? 1}) }}">➕ Start Session</a>
+        <a href="{{ path('timelog_stop', {'id': active_project ?? 1}) }}">➕ Stop Session</a>
     </div>
 {% endblock %}
