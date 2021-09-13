@@ -8,7 +8,7 @@
         {% if collection %}
         <ul>
             {% for project in collection %}
-                <li>{{ project.title }} <a href="">✏️</a> <a href="">🗑️</a> </li>
+                <li>{{ project.title }} <a href="{{ path('project_edit', {'id': project.id}) }}">✏️</a> <a href="{{ path('project_delete', {'id': project.id}) }}">🗑️</a> </li>
             {% endfor %}
         </ul>
         <a href="{{ path('project_list') }}?page={{ query.page - 1 }}">«</a> | <a href="{{ path('project_list') }}?page={{ query.page + 1 }}">»</a>
@@ -17,6 +17,6 @@
         {% endif %}
     </div>
     <div>
-        <a href="">➕ Add</a>
+        <a href="{{ path('project_create') }}">➕ Add</a>
     </div>
 {% endblock %}
