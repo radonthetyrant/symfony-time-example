@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Time Log{% endblock %}
+
+{% block body %}
+    <h3>Time Log:</h3>
+    <div>
+        {% if collection %}
+            <ul>
+                {% for log in collection %}
+                    <li><strong>{{ log.project.title }}:</strong> {{ log.startAt|date('Y-m-d H:i:s') }}{% if log.endAt %} - {{ log.endAt|date('Y-m-d H:i:s') }}{% endif %} <a href="{{ path('timelog_edit', {'id': log.id}) }}">✏️</a> <a href="{{ path('timelog_delete', {'id': log.id}) }}">🗑️</a> </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('timelog_list') }}?page={{ query.page - 1 }}">«</a> | <a href="{{ path('timelog_list') }}?page={{ query.page + 1 }}">»</a>
+        {% else %}
+            <em>No Projects exist</em>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{{ path('timelog_create') }}">➕ Add</a>
+    </div>
+{% endblock %}
