@@ -1,5 +1,5 @@
-controllers:
-    resource: ../../src/Controller/
+framework_controllers:
+    resource: ../../src/Framework/Controller
     type: annotation
 
 kernel:

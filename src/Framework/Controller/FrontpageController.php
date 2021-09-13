@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Framework\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ class FrontpageController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(): Response
     {
         $user = $this->getUser();
 
